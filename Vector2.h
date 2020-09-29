@@ -1,3 +1,5 @@
+#ifndef Vector2_H
+#define Vector2_H
 #include <cmath>
 
 struct Vector2
@@ -15,3 +17,5 @@ struct Vector2
     void normalize();
     Vector2 perpendicular();
 };
+
+#endif

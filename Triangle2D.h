@@ -1,3 +1,5 @@
+#ifndef Triangle2D_H
+#define Triangle2D_H
 #include <cmath>
 #include "Color.h"
 #include "Vector2.h"
@@ -14,3 +16,5 @@ struct Triangle2D{
     Triangle2D();
     Triangle2D(Vector2 a1, Vector2 a2, Vector2 a3, Color b1, Color b2, Color b3);
 };
+
+#endif
