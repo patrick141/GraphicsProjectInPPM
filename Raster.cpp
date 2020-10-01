@@ -174,3 +174,10 @@ float Raster::findSlope(float xL, float xR, float yL, float yR)
     float slope = (yL - yR) / (xL - xR);
     return slope; 
 }
+
+void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, Color color1, Color color2)
+{
+    Vector2 temp1(x1,y1);
+    Vector2 temp2(x2,y2);
+    float d = sqrt(pow(temp1.x - temp2.x, 2.0) + pow(temp1.y - temp2.y, 2.0));
+}

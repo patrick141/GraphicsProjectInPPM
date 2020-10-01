@@ -56,6 +56,5 @@ double Vector2::dot(Vector2 temp)
 
 Vector2 Vector2::perpendicular()
 {
-    Vector2 temp;
-    return temp;
+    return Vector2(-y,x);
 }

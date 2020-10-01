@@ -10,12 +10,7 @@ using namespace std;
 */
 
 float determinant(Vector2 a, Vector2 b){
-	float i = a.x - b.x;
-	float j = a.y - b.y;
-	i = i * i;
-	j = j * j;
-	float d = sqrt(i + j);
-	return d;
+	return b.x * a.y - a.x * b.y;
 };
 
 int main()
@@ -69,5 +64,8 @@ int main()
 	Vector2 a(1.2,3.4);
 	Vector2 b(1.5,6.3);
 	cout << determinant(a,b) << endl;
+	Vector2 w = b.perpendicular();
+	cout << w.x << " " << w.y << endl;
+	cout << w.dot(a) << endl;
 	return 0;
 }

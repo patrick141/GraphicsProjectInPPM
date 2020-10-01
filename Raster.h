@@ -5,11 +5,12 @@
 
 class Raster
 {
-    public:
+    private:
         int width;
         int height;
         Color* pixels;
         
+    public:
         Raster();
         Raster(int pWidth, int pHeight, Color pFillColor);
 
