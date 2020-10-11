@@ -177,7 +177,103 @@ float Raster::findSlope(float xL, float xR, float yL, float yR)
 
 void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, Color color1, Color color2)
 {
-    Vector2 temp1(x1,y1);
-    Vector2 temp2(x2,y2);
-    float d = sqrt(pow(temp1.x - temp2.x, 2.0) + pow(temp1.y - temp2.y, 2.0));
+	Color fillColor = Red;
+    if (x1 == x2)
+    {
+		int ymin = fminf(y1,y2);
+		int ymax = fmax(y1,y2);
+        for (int y = ymax; y >= ymin; y--)
+        {
+			Vector2 v1(x1,ymax);
+    		Vector2 v2(x1,y);
+			Vector2 temp = v2 - v1;
+			float ratio= ymax - y;
+			//float ratio = temp.magnitude();
+            Color fillColor = (color2 * ratio)+ (color1 * (1- ratio));
+            setColorPixel(x1, y, fillColor);
+        }
+    }
+	else if (findSlope(x1, x2, y1, y2) > 1.0)
+    {
+		if (y1 > y2)
+        {
+        	float theSlope = findSlope(y2, y1, x2, x1);
+			float x = x1;
+			for (int i = y1; i >= y2; i--)
+            {
+				setColorPixel(round(x), i, fillColor);
+				x -= theSlope;
+			}
+		}
+		else if (y2 > y1)
+        {
+			float theSlope = findSlope(y1, y2, x1, x2);
+			float x = x2;
+			for (int i = y2; i >= y1; i--)
+            {
+				setColorPixel(round(x), i, fillColor);
+				x -= theSlope;
+			}
+		}
+		
+	}
+	else if (findSlope(x1, x2, y1, y2) < -1.0){
+		if (y1 > y2){
+			float theSlope = findSlope(y2, y1, x2, x1);
+			float x = x1;
+			for (int i = y1; i >= y2; i--){
+				setColorPixel(round(x), i, fillColor);
+				x -= theSlope;
+			}
+		}
+		else if (y2 > y1){
+			float theSlope = findSlope(y1, y2, x1, x2);
+			float x = x2;
+			for (int i = y2; i >= y1; i--){
+				setColorPixel(round(x), i, fillColor);
+				x -= theSlope;
+			}
+		}
+	}
+	else if (y1 == y2){
+		for (int x = fminf(x1, x2); x <= fmaxf(x1, x2); x++){
+			setColorPixel(x, y1, fillColor);
+		}
+	}
+	else if (x1 < x2){
+		float theSlope = findSlope(x1, x2, y1, y2);
+		float y = y1;
+		for (int i = x1; i <= x2; i++){
+			setColorPixel(i, round(y), fillColor);
+			y += theSlope;
+		}
+	}
+	else if (x2 < x1){
+		float theSlope = findSlope(x2, x1, y2, y1);
+		float y = y2;
+		for (int i = x2; i <= x1; i++){
+			setColorPixel(i, round(y), fillColor);
+			y += theSlope;
+		}
+	} 
+}
+
+void Raster::drawTriangle2D_DotProduct(Triangle2D triangle)
+{
+	Vector2 v1 = triangle.v1;
+	Vector2 v2 = triangle.v2;
+	Vector2 v3 = triangle.v3;
+
+	int xmin = fminf(v1.x, fminf(v2.x, v3.x));
+	int xmax = fmaxf(v1.x, fmaxf(v2.x, v3.x));
+	int ymin = fminf(v1.y, fminf(v2.y, v3.y));
+	int ymax = fmaxf(v1.y, fmaxf(v2.y, v3.y));
+
+	for(int x = xmin; x <= xmax; x++){
+		for(int y = ymin; y <= ymax; y++){
+			if(triangle.inside(x,y)){
+			setColorPixel(x,y,triangle.c1);
+			}
+		}
+	}
 }

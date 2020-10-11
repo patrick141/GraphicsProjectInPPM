@@ -16,6 +16,7 @@ struct Triangle2D{
     Triangle2D();
     Triangle2D(Vector2 a1, Vector2 a2, Vector2 a3, Color b1, Color b2, Color b3);
     void calculateBarycentricCoordinates(Vector2 P, float& lambda1, float& lambda2, float& lambda3);
+    bool inside(int x, int y);
 };
 
 #endif
