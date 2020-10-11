@@ -175,23 +175,36 @@ float Raster::findSlope(float xL, float xR, float yL, float yR)
     return slope; 
 }
 
+/*
+	TODO: Fix these methods. Some need to be implemented and need to work if placed backwards.
+*/
 void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, Color color1, Color color2)
 {
-	Color fillColor = Red;
+	Color fillColor = Black;
     if (x1 == x2)
     {
-		int ymin = fminf(y1,y2);
-		int ymax = fmax(y1,y2);
-        for (int y = ymax; y >= ymin; y--)
-        {
-			Vector2 v1(x1,ymax);
-    		Vector2 v2(x1,y);
-			Vector2 temp = v2 - v1;
-			float ratio= ymax - y;
-			//float ratio = temp.magnitude();
-            Color fillColor = (color2 * ratio)+ (color1 * (1- ratio));
-            setColorPixel(x1, y, fillColor);
-        }
+		if(y1 < y2)
+		{
+			for (int y = fmaxf(y1, y2); y >= fminf(y1, y2); y--)
+        	{
+				Vector2 v1(x1,fminf(y1,y2));
+				Vector2 v2(x1,y);
+				Vector2 temp = v2 - v1;
+				float ratio = temp.magnitude()/(y2 - y1);
+				Color fillColor = (color2 * ratio)+ (color1 * (1- ratio));
+				setColorPixel(x1, y, fillColor);
+			}
+		} else{
+			for (int y = fminf(y1, y2); y <= fmaxf(y1, y2); y++)
+        	{
+				Vector2 v1(x1,fmaxf(y1,y2));
+				Vector2 v2(x1,y);
+				Vector2 temp = v2 - v1;
+				float ratio = temp.magnitude()/(y2 - y1);
+				Color fillColor = (color1 * ratio)+ (color2 * (1- ratio));
+				setColorPixel(x1, y, fillColor);
+			}
+		}
     }
 	else if (findSlope(x1, x2, y1, y2) > 1.0)
     {
@@ -236,9 +249,18 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 		}
 	}
 	else if (y1 == y2){
-		for (int x = fminf(x1, x2); x <= fmaxf(x1, x2); x++){
-			setColorPixel(x, y1, fillColor);
-		}
+		int xmin = fminf(x1,x2);
+		int xmax = fmax(x1,x2);
+        for (int x = xmax; x >= xmin; x--)
+        {
+			Vector2 v1(xmax, y1);
+    		Vector2 v2(x, y1);
+			Vector2 temp = v2 - v1;
+			float ratio = temp.magnitude()/(xmax - xmin);
+            Color fillColor = (color1 * ratio)+ (color2 * (1- ratio));
+            setColorPixel(x, y1, fillColor);
+
+        }
 	}
 	else if (x1 < x2){
 		float theSlope = findSlope(x1, x2, y1, y2);
@@ -258,6 +280,9 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 	} 
 }
 
+/*
+	This only makes the triangle the first color. Do we need to draw for all colors?
+*/
 void Raster::drawTriangle2D_DotProduct(Triangle2D triangle)
 {
 	Vector2 v1 = triangle.v1;
@@ -272,7 +297,7 @@ void Raster::drawTriangle2D_DotProduct(Triangle2D triangle)
 	for(int x = xmin; x <= xmax; x++){
 		for(int y = ymin; y <= ymax; y++){
 			if(triangle.inside(x,y)){
-			setColorPixel(x,y,triangle.c1);
+				setColorPixel(x,y,triangle.c1);
 			}
 		}
 	}

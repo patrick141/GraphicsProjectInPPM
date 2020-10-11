@@ -55,5 +55,6 @@ bool Triangle2D::inside(int x, int y)
 
 void Triangle2D::calculateBarycentricCoordinates(Vector2 P, float& lambda1, float& lambda2, float& lambda3)
 {
+    
     return;
 }
