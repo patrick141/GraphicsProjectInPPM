@@ -19,4 +19,5 @@ struct Triangle2D{
     bool inside(int x, int y);
 };
 
+
 #endif

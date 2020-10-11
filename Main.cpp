@@ -2,6 +2,7 @@
 #include "Color.h"
 #include "Raster.h"
 #include "Vector2.h"
+#include "Triangle2D.h"
 using namespace std;
 
 /*
@@ -28,5 +29,12 @@ int main()
 	//Triangle2D t2(Vector2(90,20), Vector2(98,19), Vector2(92,21), c4, Red, Red);
 	//p.drawTriangle2D_DotProduct(t2);
 	p.writeToPPM();
+	float a;
+	float b;
+	float c;
+	myTriangle.calculateBarycentricCoordinates(Vector2(1,1),a,b,c);
+	cout << a << " " << b <<  " " << c << endl;
+	cout << a + b + c << endl;
+
 	return 0;
 }

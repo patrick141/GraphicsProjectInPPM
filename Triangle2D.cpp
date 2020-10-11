@@ -1,14 +1,13 @@
 #include "Triangle2D.h"
+#include "Vector2.h"
 #include <cmath>
 
 Triangle2D::Triangle2D()
 {
-    v1.x = 0.0;
-    v1.y = 0.0;
-    v2.x = 0.0;
-    v2.y = 0.0;
-    v3.x = 0.0;
-    v3.y = 0.0;
+
+    v1 = Vector2(0.0 ,0.0);
+    v2 = Vector2(0.0 ,0.0);
+    v3 = Vector2(0.0 ,0.0);
 
     c1 = Black;
     c2 = Black;
@@ -17,12 +16,9 @@ Triangle2D::Triangle2D()
 
 Triangle2D::Triangle2D(Vector2 a1, Vector2 a2, Vector2 a3, Color b1, Color b2, Color b3)
 {
-    v1.x = a1.x;
-    v1.y = a1.y;
-    v2.x = a2.x;
-    v2.y = a2.y;
-    v3.x = a3.x;
-    v3.y = a3.y;
+    v1 = a1;
+    v2 = a2;
+    v3 = a3;
 
     c1 = b1;
     c2 = b2;
@@ -53,8 +49,20 @@ bool Triangle2D::inside(int x, int y)
     }
 }
 
+/* 
+    TODO: Implement this method.
+*/
 void Triangle2D::calculateBarycentricCoordinates(Vector2 P, float& lambda1, float& lambda2, float& lambda3)
 {
-    
-    return;
+    float area = Determinant(v2 - v3, v1 - v3);
+    if(area == 0.0){
+        lambda1 = 1.0;
+        lambda2 = 0.0;
+        lambda3 = 0.0;
+    } 
+    else {
+        lambda1 = Determinant(v2 - v3, P - v3) / area;
+        lambda2 = Determinant(P - v3, v1 - v3) / area;
+        lambda3 = 1.0 - lambda1 - lambda2;
+    }
 }

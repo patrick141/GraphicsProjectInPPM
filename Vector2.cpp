@@ -58,3 +58,9 @@ Vector2 Vector2::perpendicular()
 {
     return Vector2(-y,x);
 }
+
+//determinant function
+float Determinant(Vector2 a, Vector2 b)
+{
+    return b.x*a.y - b.y*a.x;
+}

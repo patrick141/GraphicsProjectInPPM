@@ -18,4 +18,6 @@ struct Vector2
     Vector2 perpendicular();
 };
 
+float Determinant(Vector2 a, Vector2 b);
+
 #endif
