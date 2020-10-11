@@ -194,6 +194,7 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 			setColorPixel(x1, y, fillColor);
 		}
     }
+	// TODO: MOdify this method
 	else if (findSlope(x1, x2, y1, y2) > 1.0)
     {
 		if (y1 > y2)
@@ -206,6 +207,7 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 				x -= theSlope;
 			}
 		}
+		// TODO: MOdify this method
 		else if (y2 > y1)
         {
 			float theSlope = findSlope(y1, y2, x1, x2);
@@ -218,6 +220,7 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 		}
 		
 	}
+	// TODO: MOdify this method
 	else if (findSlope(x1, x2, y1, y2) < -1.0){
 		if (y1 > y2){
 			float theSlope = findSlope(y2, y1, x2, x1);
@@ -227,6 +230,7 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 				x -= theSlope;
 			}
 		}
+		// TODO: MOdify this method
 		else if (y2 > y1){
 			float theSlope = findSlope(y1, y2, x1, x2);
 			float x = x2;
@@ -236,6 +240,7 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 			}
 		}
 	}
+	// TODO: MOdify this method
 	else if (y1 == y2){
 		int xmin = fminf(x1,x2);
 		int xmax = fmax(x1,x2);
@@ -251,6 +256,7 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 
         }
 	}
+	// TODO: MOdify this method
 	else if (x1 < x2){
 		float theSlope = findSlope(x1, x2, y1, y2);
 		float y = y1;
@@ -259,6 +265,7 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 			y += theSlope;
 		}
 	}
+	// TODO: MOdify this method
 	else if (x2 < x1){
 		float theSlope = findSlope(x2, x1, y2, y1);
 		float y = y2;
@@ -282,6 +289,11 @@ void Raster::drawTriangle2D_DotProduct(Triangle2D triangle)
 	int xmax = fmaxf(v1.x, fmaxf(v2.x, v3.x));
 	int ymin = fminf(v1.y, fminf(v2.y, v3.y));
 	int ymax = fmaxf(v1.y, fmaxf(v2.y, v3.y));
+	xmin = fmax(0, xmin);
+	xmax = fmin(width, xmax);
+	ymin = fmax(0,ymin);
+	ymax = fmin(height, ymax);
+
 
 	for(int x = xmin; x <= xmax; x++){
 		for(int y = ymin; y <= ymax; y++){

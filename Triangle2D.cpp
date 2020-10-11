@@ -49,9 +49,6 @@ bool Triangle2D::inside(int x, int y)
     }
 }
 
-/* 
-    TODO: Implement this method.
-*/
 void Triangle2D::calculateBarycentricCoordinates(Vector2 P, float& lambda1, float& lambda2, float& lambda3)
 {
     float area = Determinant(v2 - v3, v1 - v3);
