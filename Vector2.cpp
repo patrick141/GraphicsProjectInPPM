@@ -60,7 +60,7 @@ Vector2 Vector2::perpendicular()
 }
 
 //determinant function
-float Determinant(Vector2 a, Vector2 b)
+float determinant(Vector2 a, Vector2 b)
 {
     return b.x*a.y - b.y*a.x;
 }

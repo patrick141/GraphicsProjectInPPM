@@ -18,9 +18,9 @@ int main()
 	Color c4(0.32,0.39,0.21,0.32);
 
 	Raster p(100, 100, White);
-	Triangle2D t1(Vector2(1,1), Vector2(99,1), Vector2(45,89), White - Red * 0.2, Green, Purple);
+	Triangle2D t1(Vector2(2,15), Vector2(72,10), Vector2(45,80), Red, Green, Blue);
 	p.drawTriangle_Barycentric(t1);
-	p.drawLine_DDA_Interpolated(0.32,0.42,87.23,98.14, Gray, Purple);
+	p.drawLine_DDA_Interpolated(72.32,0.42,87.23,98.14, Yellow, Purple);
 	p.writeToPPM();
 	return 0;
 }

@@ -46,15 +46,15 @@ bool Triangle2D::inside(int x, int y)
 
 void Triangle2D::calculateBarycentricCoordinates(Vector2 P, float& lambda1, float& lambda2, float& lambda3)
 {
-    float area = Determinant(v2 - v3, v1 - v3);
+    float area = determinant(v2 - v3, v1 - v3);
     if(area == 0.0){
         lambda1 = 1.0;
         lambda2 = 0.0;
         lambda3 = 0.0;
     } 
     else {
-        lambda1 = Determinant(v2 - v3, P - v3) / area;
-        lambda2 = Determinant(P - v3, v1 - v3) / area;
+        lambda1 = determinant(v2 - v3, P - v3) / area;
+        lambda2 = determinant(P - v3, v1 - v3) / area;
         lambda3 = 1.0 - lambda1 - lambda2;
     }
 }
