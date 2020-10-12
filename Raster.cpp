@@ -286,14 +286,11 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 
 void Raster::drawTriangle2D_DotProduct(Triangle2D triangle)
 {
-	Vector2 v1 = triangle.v1;
-	Vector2 v2 = triangle.v2;
-	Vector2 v3 = triangle.v3;
+	int xmin = round(fminf(triangle.v1.x, fminf(triangle.v2.x, triangle.v3.x)));
+	int xmax = round(fmaxf(triangle.v1.x, fmaxf(triangle.v2.x, triangle.v3.x)));
+	int ymin = round(fminf(triangle.v1.y, fminf(triangle.v2.y, triangle.v3.y)));
+	int ymax = round(fmaxf(triangle.v1.y, fmaxf(triangle.v2.y, triangle.v3.y)));
 
-	int xmin = round(fminf(v1.x, fminf(v2.x, v3.x)));
-	int xmax = round(fmaxf(v1.x, fmaxf(v2.x, v3.x)));
-	int ymin = round(fminf(v1.y, fminf(v2.y, v3.y)));
-	int ymax = round(fmaxf(v1.y, fmaxf(v2.y, v3.y)));
 	xmin = fmax(0, xmin);
 	xmax = fmin(width, xmax);
 	ymin = fmax(0,ymin);
@@ -301,7 +298,6 @@ void Raster::drawTriangle2D_DotProduct(Triangle2D triangle)
 	
 	for(int x = xmin; x <= xmax; x++){
 		for(int y = ymin; y <= ymax; y++){
-			Vector2 p = Vector2(x,y);
 			if(triangle.inside(x,y)){
 				setColorPixel(x,y,triangle.c1);
 			}

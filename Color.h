@@ -5,6 +5,11 @@
 #define Blue Color(0.0,0.0,1.0,1.0)
 #define White Color(1.0,1.0,1.0,1.0)
 #define Black Color(0.0,0.0,0.0,1.0)
+#define Yellow Color(1.0,1.0,0.0,1.0)
+#define Orange Color(1.0,0.5,0.0,1.0)
+#define Purple Color(1.0,0.5,1.0,1.0)
+#define Gray Color(0.5,0.5,0.5,1.0)
+
 #include <iostream>
 
 struct Color

@@ -5,10 +5,10 @@
 
 Color::Color()
 {
-    red = 0;
-    green = 0;
-    blue = 0;
-    alpha = 0;
+    red = 0.0;
+    green = 0.0;
+    blue = 0.0;
+    alpha = 0.0;
 }
 
 Color::Color(float pRed, float pGreen, float pBlue, float pAlpha)
@@ -31,30 +31,33 @@ void Color::clamp()
 Color Color::operator+(const Color& b)
 {
     Color x;
-    x.red = fmin(fmax(red + b.red, 0.0), 1.0);
-    x.green = fmin(fmax(green + b.green, 0.0), 1.0);
-    x.blue = fmin(fmax(blue + b.blue, 0.0), 1.0);
-    x.alpha = fmin(fmax(alpha + b.alpha, 0.0), 1.0);
+    x.red = red + b.red;
+    x.green = green + b.green;
+    x.blue = blue + b.blue;
+    x.alpha = alpha + b.alpha;
+    clamp();
     return x;
 }
 
 Color Color::operator-(const Color& b)
 {
     Color x;
-    x.red = fmin(fmax(red - b.red, 0.0), 1.0);
-    x.green = fmin(fmax(green - b.green, 0.0), 1.0);
-    x.blue = fmin(fmax(blue - b.blue, 0.0), 1.0);
-    x.alpha = fmin(fmax(alpha - b.alpha, 0.0), 1.0);
+    x.red = red - b.red;
+    x.green = green - b.green;
+    x.blue = blue - b.blue;
+    x.alpha = alpha - b.alpha;
+    clamp();
     return x;
 }
 
 Color Color::operator*(float b)
 {
     Color x;
-    x.red = fmin(fmax(red * b, 0.0), 1.0);
-    x.green = fmin(fmax(green * b, 0.0), 1.0);
-    x.blue = fmin(fmax(blue * b, 0.0), 1.0);
-    x.alpha = fmin(fmax(alpha * b, 0.0), 1.0);
+    x.red = red * b;
+    x.green = green * b;
+    x.blue = blue * b;
+    x.alpha = alpha * b;
+    clamp();
     return x;
 }
 
