@@ -175,26 +175,23 @@ float Raster::findSlope(float xL, float xR, float yL, float yR)
     return slope; 
 }
 
-/*
-	TODO: Fix these methods for all test case. Some need to be implemented and need to work if placed backwards.
-*/
 void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, Color color1, Color color2)
 {
-	Color fillColor = Black;
+	Vector2 v1(x1, y1);
+	Vector2 v2(x2, y2);
+	float distance = (v2 - v1).magnitude();
+
     if (x1 == x2)
     {
-		// TODO: Fix this method so we can reverse the positions and still have the same line
 		for (int y = fmaxf(y1, y2); y >= fminf(y1, y2); y--)
 		{
-			Vector2 v1(x1,fminf(y1,y2));
-			Vector2 v2(x1,y);
-			Vector2 temp = v2 - v1;
-			float ratio = temp.magnitude()/(y2 - y1);
-			Color fillColor = (color2 * ratio)+ (color1 * (1- ratio));
-			setColorPixel(x1, y, fillColor);
+			Vector2 point(x1, y);
+			float pointLength = (point - v1).magnitude();
+			float ratio = pointLength / distance;
+			setColorPixel(x1, y, ((color2 * ratio) + (color1 * (1.0 - ratio))));
 		}
     }
-	// TODO: MOdify this method
+	
 	else if (findSlope(x1, x2, y1, y2) > 1.0)
     {
 		if (y1 > y2)
@@ -203,100 +200,108 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 			float x = x1;
 			for (int i = y1; i >= y2; i--)
             {
-				setColorPixel(round(x), i, fillColor);
+				Vector2 point(round(x),i);
+				float pointLength = (point - v1).magnitude();
+				float ratio = pointLength / distance;
+				setColorPixel(round(x), i, ((color2*ratio) + (color1*(1.0-ratio))));
 				x -= theSlope;
 			}
 		}
-		// TODO: MOdify this method
+		
 		else if (y2 > y1)
         {
 			float theSlope = findSlope(y1, y2, x1, x2);
 			float x = x2;
 			for (int i = y2; i >= y1; i--)
             {
-				setColorPixel(round(x), i, fillColor);
+				Vector2 point(round(x) ,i);
+				float pointlength = (point -v1).magnitude();
+				float ratio = pointlength / distance; 
+				setColorPixel(round(x), i, ((color2*ratio) + (color1*(1-ratio))));
 				x -= theSlope;
 			}
 		}
 		
 	}
-	// TODO: MOdify this method
 	else if (findSlope(x1, x2, y1, y2) < -1.0){
 		if (y1 > y2){
 			float theSlope = findSlope(y2, y1, x2, x1);
 			float x = x1;
 			for (int i = y1; i >= y2; i--){
-				setColorPixel(round(x), i, fillColor);
+				Vector2 point(round(x), i);
+				float pointLength = (point - v1).magnitude();
+				float ratio = pointLength / distance;
+				setColorPixel(round(x), i, ((color2 * ratio) + (color1 * (1.0 - ratio))));
 				x -= theSlope;
 			}
 		}
-		// TODO: MOdify this method
+	
 		else if (y2 > y1){
 			float theSlope = findSlope(y1, y2, x1, x2);
 			float x = x2;
-			for (int i = y2; i >= y1; i--){
-				setColorPixel(round(x), i, fillColor);
+			for (int i = y2; i >= y1; i--)
+			{
+				Vector2 point(round(x), i);
+				float pointLength = (point - v1).magnitude();
+				float ratio = pointLength / distance;
+				setColorPixel(round(x), i, ((color2 * ratio) + (color1 * (1.0 - ratio))));
 				x -= theSlope;
 			}
 		}
 	}
-	// TODO: MOdify this method
+	
 	else if (y1 == y2){
-		int xmin = fminf(x1,x2);
-		int xmax = fmax(x1,x2);
-        for (int x = xmax; x >= xmin; x--)
+        for (int x = fminf(x1,x2); x <= fmaxf(x1,x2); x++)
         {
-			// TODO: Fix this method so we can reverse the positions and still have the same line
-			Vector2 v1(xmax, y1);
-    		Vector2 v2(x, y1);
-			Vector2 temp = v2 - v1;
-			float ratio = temp.magnitude()/(xmax - xmin);
-            Color fillColor = (color1 * ratio)+ (color2 * (1- ratio));
-            setColorPixel(x, y1, fillColor);
-
+			Vector2 point(x, y1);
+			float pointLength = (point - v1).magnitude();
+			float ratio = pointLength / distance;
+			setColorPixel(x, y1, ((color2 * ratio) + (color1 * (1.0 - ratio))));
         }
 	}
-	// TODO: MOdify this method
+	
 	else if (x1 < x2){
 		float theSlope = findSlope(x1, x2, y1, y2);
 		float y = y1;
 		for (int i = x1; i <= x2; i++){
-			setColorPixel(i, round(y), fillColor);
+			Vector2 point(i, round(y));
+			float pointDistance = (point - v1).magnitude();
+			float ratio = pointDistance / distance;
+			setColorPixel(i, round(y), ((color2 * ratio) + (color1 * (1.0 - ratio))));
 			y += theSlope;
 		}
 	}
-	// TODO: MOdify this method
 	else if (x2 < x1){
 		float theSlope = findSlope(x2, x1, y2, y1);
 		float y = y2;
 		for (int i = x2; i <= x1; i++){
-			setColorPixel(i, round(y), fillColor);
+			Vector2 point(i, round(y));
+			float pointDistance = (point - v1).magnitude();
+			float ratio = pointDistance / distance;
+			setColorPixel(i, round(y), ((color2 * ratio) + (color1 * (1.0 - ratio))));
 			y += theSlope;
 		}
 	} 
 }
 
-/*
-	TODO: Check this code. This only makes the triangle the first color. Do we need to draw for all colors?
-*/
 void Raster::drawTriangle2D_DotProduct(Triangle2D triangle)
 {
 	Vector2 v1 = triangle.v1;
 	Vector2 v2 = triangle.v2;
 	Vector2 v3 = triangle.v3;
 
-	int xmin = fminf(v1.x, fminf(v2.x, v3.x));
-	int xmax = fmaxf(v1.x, fmaxf(v2.x, v3.x));
-	int ymin = fminf(v1.y, fminf(v2.y, v3.y));
-	int ymax = fmaxf(v1.y, fmaxf(v2.y, v3.y));
+	int xmin = round(fminf(v1.x, fminf(v2.x, v3.x)));
+	int xmax = round(fmaxf(v1.x, fmaxf(v2.x, v3.x)));
+	int ymin = round(fminf(v1.y, fminf(v2.y, v3.y)));
+	int ymax = round(fmaxf(v1.y, fmaxf(v2.y, v3.y)));
 	xmin = fmax(0, xmin);
 	xmax = fmin(width, xmax);
 	ymin = fmax(0,ymin);
-	ymax = fmin(height, ymax);
-
-
+	ymax = fmin(height, ymax); 
+	
 	for(int x = xmin; x <= xmax; x++){
 		for(int y = ymin; y <= ymax; y++){
+			Vector2 p = Vector2(x,y);
 			if(triangle.inside(x,y)){
 				setColorPixel(x,y,triangle.c1);
 			}

@@ -19,14 +19,16 @@ int main()
 
 	Raster p(100, 100, White);
 	Triangle2D myTriangle(Vector2(2,15), Vector2(72,10), Vector2(45,80), Red, Green, Blue);
-	p.drawTriangle_Barycentric(myTriangle);
-	//p.drawTriangle2D_DotProduct(myTriangle);
+	//p.drawTriangle_Barycentric(myTriangle);
+	p.drawTriangle2D_DotProduct(myTriangle);
 	p.drawLine_DDA_Interpolated(89,13,89,72,Blue, Green);
 	p.drawLine_DDA_Interpolated(91,72,91,13,Green, Blue);
 	p.drawLine_DDA_Interpolated(1,1,80,1,Green, Red);
+	p.drawLine_DDA_Interpolated(80,3,1,3,Red, Green);
+	p.drawLine_DDA_Interpolated(90,10,90,40, Black, Red);
+	p.drawLine_DDA_Interpolated(4,98,89,90,Red,Blue);
 	//Triangle2D t2(Vector2(90,20), Vector2(98,19), Vector2(92,21), c4, Red, Red);
 	//p.drawTriangle2D_DotProduct(t2);
-	//p.writeToPPM();
-	test.myRGBA();
+	p.writeToPPM();
 	return 0;
 }
