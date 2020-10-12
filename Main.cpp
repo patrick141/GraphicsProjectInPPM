@@ -6,10 +6,9 @@
 using namespace std;
 
 /*
-    CSC 350 Project CheckPoint #1
+    CSC 350 Project CheckPoint #2
     by Patrick Amaro Rivera, Robin Bista and Rana Hamza.
 */
-
 
 int main()
 {
@@ -19,20 +18,15 @@ int main()
 	Color c4(0.32,0.39,0.21,0.32);
 
 	Raster p(100, 100, White);
-	Triangle2D myTriangle(Vector2(2,15), Vector2(72,10), Vector2(45,80), Red, Red, Red);
-	p.drawTriangle2D_DotProduct(myTriangle);
+	Triangle2D myTriangle(Vector2(2,15), Vector2(72,10), Vector2(45,80), Red, Green, Blue);
+	p.drawTriangle_Barycentric(myTriangle);
+	//p.drawTriangle2D_DotProduct(myTriangle);
 	p.drawLine_DDA_Interpolated(89,13,89,72,Blue, Green);
 	p.drawLine_DDA_Interpolated(91,72,91,13,Green, Blue);
 	p.drawLine_DDA_Interpolated(1,1,80,1,Green, Red);
 	//Triangle2D t2(Vector2(90,20), Vector2(98,19), Vector2(92,21), c4, Red, Red);
 	//p.drawTriangle2D_DotProduct(t2);
-	p.writeToPPM();
-	float a;
-	float b;
-	float c;
-	myTriangle.calculateBarycentricCoordinates(Vector2(45,80),a,b,c);
-	cout << a << " " << b <<  " " << c << endl;
-	cout << a + b + c << endl;
-
+	//p.writeToPPM();
+	test.myRGBA();
 	return 0;
 }
