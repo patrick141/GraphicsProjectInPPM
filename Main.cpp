@@ -20,7 +20,9 @@ int main()
 	Raster p(100, 100, White);
 	Triangle2D t1(Vector2(2,15), Vector2(72,10), Vector2(45,80), Red, Green, Blue);
 	p.drawTriangle_Barycentric(t1);
-	p.drawLine_DDA_Interpolated(72.32,0.42,87.23,98.14, Yellow, Purple);
+	p.drawLine_DDA_Interpolated(10,23,10,51,Green, Red);
+	p.drawLine_DDA_Interpolated(10,23,51,23,Green, Red);
+	p.drawLine_DDA_Interpolated(72.32,0.42,87.23,98.14, Red, Blue);
 	p.writeToPPM();
 	return 0;
 }

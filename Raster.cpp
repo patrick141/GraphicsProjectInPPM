@@ -188,7 +188,8 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 			Vector2 point(x1, y);
 			float pointLength = (point - v1).magnitude();
 			float ratio = pointLength / distance;
-			setColorPixel(x1, y, ((color2 * ratio) + (color1 * (1.0 - ratio))));
+			Color fillColor = (color2 * ratio) + (color1 * (1.0 - ratio));
+			setColorPixel(x1, y, fillColor);
 		}
     }
 	
@@ -203,7 +204,8 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 				Vector2 point(round(x),i);
 				float pointLength = (point - v1).magnitude();
 				float ratio = pointLength / distance;
-				setColorPixel(round(x), i, ((color2*ratio) + (color1*(1.0-ratio))));
+				Color fillColor = (color2 * ratio) + (color1 * (1.0 - ratio));
+				setColorPixel(round(x),i,fillColor);
 				x -= theSlope;
 			}
 		}
@@ -217,7 +219,8 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 				Vector2 point(round(x) ,i);
 				float pointlength = (point -v1).magnitude();
 				float ratio = pointlength / distance; 
-				setColorPixel(round(x), i, ((color2*ratio) + (color1*(1-ratio))));
+				Color fillColor = (color2 * ratio) + (color1 * (1.0 - ratio));
+				setColorPixel(round(x), i, fillColor);
 				x -= theSlope;
 			}
 		}
@@ -231,7 +234,8 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 				Vector2 point(round(x), i);
 				float pointLength = (point - v1).magnitude();
 				float ratio = pointLength / distance;
-				setColorPixel(round(x), i, ((color2 * ratio) + (color1 * (1.0 - ratio))));
+				Color fillColor = (color2 * ratio) + (color1 * (1.0 - ratio));
+				setColorPixel(round(x), i, fillColor);
 				x -= theSlope;
 			}
 		}
@@ -244,7 +248,8 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 				Vector2 point(round(x), i);
 				float pointLength = (point - v1).magnitude();
 				float ratio = pointLength / distance;
-				setColorPixel(round(x), i, ((color2 * ratio) + (color1 * (1.0 - ratio))));
+				Color fillColor = (color2 * ratio) + (color1 * (1.0 - ratio));
+				setColorPixel(round(x), i, fillColor);
 				x -= theSlope;
 			}
 		}
@@ -256,7 +261,8 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 			Vector2 point(x, y1);
 			float pointLength = (point - v1).magnitude();
 			float ratio = pointLength / distance;
-			setColorPixel(x, y1, ((color2 * ratio) + (color1 * (1.0 - ratio))));
+			Color fillColor = (color2 * ratio) + (color1 * (1.0 - ratio));
+			setColorPixel(x, y1, fillColor);
         }
 	}
 	
@@ -267,7 +273,8 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 			Vector2 point(i, round(y));
 			float pointDistance = (point - v1).magnitude();
 			float ratio = pointDistance / distance;
-			setColorPixel(i, round(y), ((color2 * ratio) + (color1 * (1.0 - ratio))));
+			Color fillColor = (color2 * ratio) + (color1 * (1.0 - ratio));
+			setColorPixel(i, round(y), fillColor);
 			y += theSlope;
 		}
 	}
@@ -278,7 +285,8 @@ void Raster::drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, C
 			Vector2 point(i, round(y));
 			float pointDistance = (point - v1).magnitude();
 			float ratio = pointDistance / distance;
-			setColorPixel(i, round(y), ((color2 * ratio) + (color1 * (1.0 - ratio))));
+			Color fillColor = (color2 * ratio) + (color1 * (1.0 - ratio));
+			setColorPixel(i, round(y), fillColor);
 			y += theSlope;
 		}
 	} 
