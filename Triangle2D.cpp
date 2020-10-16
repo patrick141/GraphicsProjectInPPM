@@ -58,3 +58,25 @@ void Triangle2D::calculateBarycentricCoordinates(Vector2 P, float& lambda1, floa
         lambda3 = 1.0 - lambda1 - lambda2;
     }
 }
+
+void Triangle2D::translate(float x, float y)
+{
+    v1.translate(x,y);
+    v2.translate(x,y);
+    v3.translate(x,y);
+}
+
+void Triangle2D::rotate(float angle)
+{
+    v1.rotate(angle);
+    v2.rotate(angle);
+    v3.rotate(angle);
+}
+
+void Triangle2D::scale(float x, float y)
+{
+    v1.scale(x,y);
+    v2.scale(x,y);
+    v3.scale(x,y);
+}
+

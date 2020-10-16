@@ -341,3 +341,84 @@ void Raster::drawTriangle_Barycentric(Triangle2D T)
 		}
 	}
 }
+
+void Raster::drawRectangle(Rectangle2D R)
+{
+	int xmin = round(fminf(R.v1.x, fminf(R.v2.x, fminf(R.v3.x, R.v4.x))));
+	int xmax = round(fmaxf(R.v1.x, fmaxf(R.v2.x, fmaxf(R.v3.x, R.v4.x))));
+	int ymin = round(fminf(R.v1.y, fminf(R.v2.y, fminf(R.v3.y, R.v4.y))));
+	int ymax = round(fmaxf(R.v1.y, fmaxf(R.v2.y, fmaxf(R.v3.y, R.v4.y))));
+
+	xmin = fmax(0, xmin);
+	xmax = fmin(width, xmax);
+	ymin = fmax(0,ymin);
+	ymax = fmin(height, ymax);
+
+	for(int x = xmin; x <= xmax; x++){
+		for(int y = ymin; y <= ymax; y++){
+			setColorPixel(x,y,R.c1);
+		}
+	}
+
+	return;
+}
+
+void Raster::drawCirclePoints(Circle2D c)
+{
+	setColorPixel(c.center.x, c.center.y, c.c1);
+	setColorPixel(c.v1.x,c.v1.y, c.c1);
+	setColorPixel(c.v2.x,c.v2.y, c.c1);
+	setColorPixel(c.v3.x,c.v3.y, c.c1);
+	setColorPixel(c.v4.x,c.v4.y, c.c1);
+}
+void Raster::drawCircle(Circle2D circle)
+{
+	Vector2 v1 = circle.v1;
+	Vector2 v2 = circle.v2;	
+	Vector2 v3 = circle.v3;
+	Vector2 v4 = circle.v4;
+	Vector2 center = circle.center;
+	float radius = circle.radius;
+	Color c1 = circle.c1;
+	//drawLine_DDA(v2.x,v2.y,v4.x,v4.y,c1);
+	//drawLine_DDA(v1.x,v1.y,v3.x,v3.y,c1);
+	drawCurve(v1,v4,center, radius, c1);
+	drawCurve(v4,v3,center, radius, c1);
+	drawCurve(v3,v2,center,radius,c1);
+	drawCurve(v2,v1,center,radius,c1);
+
+	int x1 = circle.v1.x;
+	int y1 = circle.v1.y;
+	int x2 = circle.v2.x;
+	int y2 = circle.v2.y;
+}
+
+void Raster::drawCurve(Vector2 v1, Vector2 v2, Vector2 center, float radius, Color c1)
+{
+	float x1 = v1.x;
+	float x2 = v2.x;
+	float y1 = v1.y;
+	float y2 = v2.y;
+
+	if(x1 < x2){
+		for(int x = x1; x <= x2; x++){
+			float f1 = 0 - pow(x - center.x, 2.0);
+			float f2 = f1 + pow(radius,2.0);
+			float y = center.y + sqrt(f2);
+			setColorPixel(x,round(y),c1);
+			drawLine_DDA(x,round(y),center.x,round(y),c1);
+			drawLine_DDA(x,center.y,x,round(y),c1);
+		}
+		return;
+	} else{
+		for(int x = x2; x <= x1; x++){
+			float f1 = 0 - pow(x - center.x, 2.0);
+			float f2 = f1 + pow(radius,2.0);
+			float y = center.y - sqrt(f2);
+			setColorPixel(x,round(y),c1);
+			drawLine_DDA(x,round(y),center.x,round(y),c1);
+			drawLine_DDA(x,center.y,x,round(y),c1);
+		}
+		return;
+	}
+}

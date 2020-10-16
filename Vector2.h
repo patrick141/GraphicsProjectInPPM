@@ -16,6 +16,9 @@ struct Vector2
     double dot(Vector2 temp);
     void normalize();
     Vector2 perpendicular();
+    void translate(float x, float y);
+    void rotate(float angle);
+    void scale(float a, float b);
 };
 
 float determinant(Vector2 a, Vector2 b);

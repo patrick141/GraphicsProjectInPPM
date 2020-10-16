@@ -64,3 +64,26 @@ float determinant(Vector2 a, Vector2 b)
 {
     return b.x*a.y - b.y*a.x;
 }
+
+void Vector2::translate(float a, float b)
+{
+    x += a;
+    y += b;
+}
+
+void Vector2::rotate(float angle)
+{
+    float a = x;
+    float b = y;
+    float cosF = cos(angle * M_PI / 180.0);
+    float sinF = sin(angle * M_PI / 180.0);
+
+    x = a * cosF - b * sinF;
+    y = a * sinF + b * cosF;
+}
+
+void Vector2::scale(float a, float b)
+{
+    x *= a;
+    y *= b;
+}

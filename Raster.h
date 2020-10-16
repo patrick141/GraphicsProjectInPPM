@@ -2,6 +2,8 @@
 #define Raster_H
 #include "Color.h"
 #include "Triangle2D.h"
+#include "Rectangle2D.h"
+#include "Circle2D.h"
 
 class Raster
 {
@@ -26,8 +28,12 @@ class Raster
         float findSlope(float xR, float xL, float yR, float yL);
 
         void drawLine_DDA_Interpolated(float x1, float y1, float x2, float y2, Color color1, Color color2);
+        void drawCurve(Vector2 v1, Vector2 v2, Vector2 center, float radius, Color c1);
         void drawTriangle2D_DotProduct(Triangle2D triangle);
         void drawTriangle_Barycentric(Triangle2D T);
+        void drawRectangle(Rectangle2D R);
+        void drawCirclePoints(Circle2D c);
+        void drawCircle(Circle2D circle);
 };
 
 #endif
