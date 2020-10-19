@@ -1,9 +1,9 @@
 #ifndef Raster_H
 #define Raster_H
 #include "Color.h"
-#include "Triangle2D.h"
-#include "Rectangle2D.h"
-#include "Circle2D.h"
+#include "Triangle.h"
+#include "Rectangle.h"
+#include "Circle.h"
 
 class Raster
 {

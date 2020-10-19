@@ -2,7 +2,7 @@
 #define Rectangle2D_H
 #include <cmath>
 #include "Color.h"
-#include "Vector2.h"
+#include "Vector.h"
 
 struct Rectangle2D{
     Vector2 v1;

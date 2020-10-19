@@ -2,7 +2,7 @@
 #define Circle2D_H
 #include <cmath>
 #include "Color.h"
-#include "Vector2.h"
+#include "Vector.h"
 
 struct Circle2D {
     Vector2 center;

@@ -1,8 +1,8 @@
-#ifndef Triangle2D_H
-#define Triangle2D_H
+#ifndef Triangle_H
+#define Triangle_H
 #include <cmath>
 #include "Color.h"
-#include "Vector2.h"
+#include "Vector.h"
 
 struct Triangle2D{
     Vector2 v1;

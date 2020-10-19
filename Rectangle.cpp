@@ -1,6 +1,4 @@
-#include "Rectangle2D.h"
-#include "Vector2.h"
-#include <cmath>
+#include "Rectangle.h"
 
 Rectangle2D::Rectangle2D()
 {

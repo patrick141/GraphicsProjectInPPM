@@ -1,5 +1,4 @@
 #include "Raster.h"
-#include "Color.h"
 #include <new>
 #include <cmath>
 #include <iostream>

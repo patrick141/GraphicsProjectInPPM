@@ -1,8 +1,6 @@
 #include <cmath>
 #include <iostream>
-#include "Circle2D.h"
-#include "Vector2.h"
-#include "Color.h"
+#include "Circle.h"
 
 Circle2D::Circle2D()
 {

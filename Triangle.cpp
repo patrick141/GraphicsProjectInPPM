@@ -1,6 +1,4 @@
-#include "Triangle2D.h"
-#include "Vector2.h"
-#include <cmath>
+#include "Triangle.h"
 
 Triangle2D::Triangle2D()
 {

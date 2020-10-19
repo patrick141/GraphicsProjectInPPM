@@ -2,10 +2,10 @@
 #include <cmath>
 #include "Color.h"
 #include "Raster.h"
-#include "Vector2.h"
-#include "Triangle2D.h"
-#include "Rectangle2D.h"
-#include "Circle2D.h"
+#include "Vector.h"
+#include "Triangle.h"
+#include "Rectangle.h"
+#include "Circle.h"
 using namespace std;
 
 /*
@@ -20,7 +20,7 @@ int main()
 	Color c3 = c1 + c2;
 	Color c4(0.32,0.39,0.21,0.32);
 
-	Raster p(250, 250, Black);
+	Raster p(100, 100, Black);
 	Triangle2D t1(Vector2(2,15), Vector2(72,10), Vector2(45,80), Red, Green, Blue);
 	p.drawLine_DDA_Interpolated(1,20,1,90, Purple, Purple);
 	p.drawLine_DDA_Interpolated(1,90,26,90, Purple, Blue);
