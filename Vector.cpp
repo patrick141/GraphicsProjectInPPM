@@ -176,3 +176,8 @@ void Vector4::scale(float a, float b)
     x *= a;
     y *= b;
 }
+
+void Vector4::print()
+{
+    std::cout << x << ", " << y << ", " <<  z << ", " <<  w << std::endl;
+}

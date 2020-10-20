@@ -23,6 +23,16 @@ Triangle2D::Triangle2D(Vector2 a1, Vector2 a2, Vector2 a3, Color b1, Color b2, C
     c3 = b3;
 }
 
+Triangle2D::Triangle2D(Triangle3D triangle)
+{
+    v1 = Vector2(triangle.v1.x, triangle.v1.y);
+	v2 = Vector2(triangle.v2.x, triangle.v2.y);
+	v3 = Vector2(triangle.v3.x, triangle.v3.y);
+    c1 = triangle.c1;
+    c2 = triangle.c2;
+    c3 = triangle.c3;
+}
+
 bool Triangle2D::inside(int x, int y)
 {
     Vector2 P(x,y);
@@ -78,3 +88,32 @@ void Triangle2D::scale(float x, float y)
     v3.scale(x,y);
 }
 
+Triangle3D::Triangle3D()
+{
+
+    v1 = Vector4(0.0 ,0.0, 0.0, 1.0);
+    v2 = Vector4(0.0 ,0.0, 0.0, 1.0);
+    v3 = Vector4(0.0 ,0.0, 0.0, 1.0);
+
+    c1 = White;
+    c2 = White;
+    c3 = White;
+}
+
+Triangle3D::Triangle3D(Vector4 pV1, Vector4 pV2,Vector4 pV3,Color pC1, Color pC2, Color pC3)
+{
+    v1 = pV1;
+    v2 = pV2;
+    v3 = pV3;
+
+    c1 = pC1;
+    c2 = pC2;
+    c3 = pC3;
+}
+
+void Triangle3D::transform(Matrix4 matrix)
+{
+    v1 = matrix * v1;
+    v2 = matrix * v2;
+    v3 = matrix * v3;
+}

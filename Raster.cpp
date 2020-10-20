@@ -341,6 +341,40 @@ void Raster::drawTriangle_Barycentric(Triangle2D T)
 	}
 }
 
+void Raster::drawTriangle3D_Barycentric(Triangle3D triangle)
+{
+	Triangle2D T(triangle);
+	Vector2 v1 = T.v1;
+	Vector2 v2 = T.v2;
+	Vector2 v3 = T.v3;
+	float f1;
+	float f2;
+	float f3;
+
+	int xmin = fminf(v1.x, fminf(v2.x, v3.x));
+	int xmax = fmaxf(v1.x, fmaxf(v2.x, v3.x));
+	int ymin = fminf(v1.y, fminf(v2.y, v3.y));
+	int ymax = fmaxf(v1.y, fmaxf(v2.y, v3.y));
+	xmin = fmax(0, xmin);
+	xmax = fmin(width, xmax);
+	ymin = fmax(0,ymin);
+	ymax = fmin(height, ymax);
+
+	for(int x = xmin; x <= xmax; x++){
+		for(int y = ymin; y <= ymax; y++){
+			T.calculateBarycentricCoordinates(Vector2(x,y), f1, f2, f3);
+			if(f1 >= 0 && f2 >= 0 && f3 >= 0){
+				Color fillColor = T.c1 * f1 + T.c2 * f2 + T.c3 * f3;
+				setColorPixel(x, y, fillColor);
+			}
+		}
+	}
+}
+
+
+
+
+// Other functions for different shapes
 void Raster::drawRectangle(Rectangle2D R)
 {
 	int xmin = round(fminf(R.v1.x, fminf(R.v2.x, fminf(R.v3.x, R.v4.x))));

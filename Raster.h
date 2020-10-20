@@ -31,6 +31,7 @@ class Raster
         void drawCurve(Vector2 v1, Vector2 v2, Vector2 center, float radius, Color c1);
         void drawTriangle2D_DotProduct(Triangle2D triangle);
         void drawTriangle_Barycentric(Triangle2D T);
+        void drawTriangle3D_Barycentric(Triangle3D triangle);
         void drawRectangle(Rectangle2D R);
         void drawCirclePoints(Circle2D c);
         void drawCircle(Circle2D circle);

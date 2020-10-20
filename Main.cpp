@@ -6,6 +6,7 @@
 #include "Triangle.h"
 #include "Rectangle.h"
 #include "Circle.h"
+#include "Matrix.h"
 using namespace std;
 
 /*
@@ -63,5 +64,26 @@ int main()
 	p.drawTriangle2D_DotProduct(t3);
 	p.writeToPPM();
 
+	Matrix4 A(1 , 2 , 3 , 4 ,5 , 6 , 7 , 8 ,9 , 10 , 11 , 12 ,13 , 14 , 15 , 16);
+	Matrix4 B(17 , 18 , 19 , 20 ,21 , 22 , 23 , 24 ,25 , 26 , 27 , 28 ,29 , 30 , 31 , 32);
+	Matrix4 C = A *B;
+	Vector4 v11(1,2,3,4);
+	Vector4 v12 = A * v11;
+	Matrix4 temp = Rotate3D(45,45,45);
+	C.print();
+	temp.print();
+	p.clear(White);
+	Triangle3D t(Vector4(0,0,0,1), Vector4(40,0,0,1), Vector4(40,40,0,1), Red, Blue, Green);
+	p.drawTriangle3D_Barycentric(t);
+	Matrix4 m = Translate3D(0,13,0);
+	t.transform(m);
+	p.drawTriangle3D_Barycentric(t);
+	p.writeToPPM();
 	return 0;
+	/*
+	0.5, 0.5, -0.707107, 0
+	-0.146447, 0.853553, 0.5, 0
+	0.853553, -0.146447, 0.5, 0
+	0, 0, 0, 1
+	*/
 }

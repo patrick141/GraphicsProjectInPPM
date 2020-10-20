@@ -1,6 +1,7 @@
 #ifndef Vector_H
 #define Vector_H
 #include <cmath>
+#include <iostream>
 
 struct Vector2
 {
@@ -39,6 +40,7 @@ struct Vector4 {
     void translate(float x, float y);
     void rotate(float angle);
     void scale(float a, float b);
+    void print();
 };
 
 float determinant(Vector2 a, Vector2 b);
