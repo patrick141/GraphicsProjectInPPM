@@ -4,6 +4,7 @@
 #include "Triangle.h"
 #include "Rectangle.h"
 #include "Circle.h"
+#include "Model.h"
 
 class Raster
 {
@@ -35,6 +36,7 @@ class Raster
         void drawRectangle(Rectangle2D R);
         void drawCirclePoints(Circle2D c);
         void drawCircle(Circle2D circle);
+        void drawModel(Model model);
 };
 
 #endif

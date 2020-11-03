@@ -5,6 +5,8 @@
 #include "Triangle.h"
 #include "Matrix.h"
 #include "Color.h"
+#ifndef Model_H
+#define Model_H
 
 using namespace std;
 
@@ -14,5 +16,9 @@ class Model {
     public:
         Model();
         int numTriangles();
-        void readfromObj();
+        void readfromObj(string file, Color fillColor);
+        Triangle3D operator[](int i);
+        void transform(Matrix4 matrix);
 };
+
+#endif
