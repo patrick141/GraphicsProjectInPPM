@@ -67,27 +67,6 @@ void Triangle2D::calculateBarycentricCoordinates(Vector2 P, float& lambda1, floa
     }
 }
 
-void Triangle2D::translate(float x, float y)
-{
-    v1.translate(x,y);
-    v2.translate(x,y);
-    v3.translate(x,y);
-}
-
-void Triangle2D::rotate(float angle)
-{
-    v1.rotate(angle);
-    v2.rotate(angle);
-    v3.rotate(angle);
-}
-
-void Triangle2D::scale(float x, float y)
-{
-    v1.scale(x,y);
-    v2.scale(x,y);
-    v3.scale(x,y);
-}
-
 Triangle3D::Triangle3D()
 {
 
@@ -116,4 +95,27 @@ void Triangle3D::transform(Matrix4 matrix)
     v1 = matrix * v1;
     v2 = matrix * v2;
     v3 = matrix * v3;
+}
+
+//Addition methods to test 2D transformations
+
+void Triangle2D::translate(float x, float y)
+{
+    v1.translate(x,y);
+    v2.translate(x,y);
+    v3.translate(x,y);
+}
+
+void Triangle2D::rotate(float angle)
+{
+    v1.rotate(angle);
+    v2.rotate(angle);
+    v3.rotate(angle);
+}
+
+void Triangle2D::scale(float x, float y)
+{
+    v1.scale(x,y);
+    v2.scale(x,y);
+    v3.scale(x,y);
 }

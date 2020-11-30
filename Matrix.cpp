@@ -1,4 +1,5 @@
 #include "Matrix.h"
+#include <iostream>
 
 Matrix4::Matrix4()
 {
@@ -97,7 +98,7 @@ Matrix4 Translate3D(float tX, float tY, float tZ)
 
 Matrix4 Scale3D(float sX, float sY, float sZ)
 {
-    Matrix4 m;
+    Matrix4 m ;
     m.ix = sX;
     m.jy = sY;
     m.kz = sZ;
@@ -106,37 +107,27 @@ Matrix4 Scale3D(float sX, float sY, float sZ)
 
 Matrix4 RotateX3D(float degrees)
 {
-    Matrix4 m;
     float cosF = cos(degrees* M_PI / 180.0);
     float sinF = sin(degrees * M_PI / 180.0);
-    m.jy = cosF;
-    m.jz = -sinF;
-    m.ky = sinF;
-    m.kz = cosF;
+    Matrix4 m(1,0,0,0,0,cosF, sinF, 0,0,-sinF,cosF,0,0,0,0,1);
     return m;
 }
 
 Matrix4 RotateY3D(float degrees)
 {
-    Matrix4 m;
+   
     float cosF = cos(degrees* M_PI / 180.0);
     float sinF = sin(degrees * M_PI / 180.0);
-    m.ix = cosF;
-    m.iz = sinF;
-    m.kx = -sinF;
-    m.kz = cosF;
+    Matrix4 m(cosF,0,-sinF,0,0,1, 0, 0,sinF, 0,cosF,0,0,0,0,1);
     return m;
 }
 
 Matrix4 RotateZ3D(float degrees)
 {
-    Matrix4 m;
+    
     float cosF = cos(degrees* M_PI / 180.0);
-    float sinF = sin(degrees * M_PI / 180.0);
-    m.ix = cosF;
-    m.iy = -sinF;
-    m.jx = sinF;
-    m.jy = cosF;
+    float sinF = sin(degrees* M_PI / 180.0);
+    Matrix4 m(cosF,sinF,0, 0, -sinF,cosF,0, 0, 0,0, 1,0,0,0,0,1);
     return m;
 }
 
@@ -151,3 +142,53 @@ Matrix4 Rotate3D(float degrees, Vector4 vec)
     float beta = acosf(vec.y / vec.magnitude());
     return RotateY3D(-alpha) * RotateX3D(-beta) * RotateY3D(degrees) * RotateX3D(beta) * RotateY3D(alpha);
 }
+
+Matrix4 LookAt(Vector4 eye, Vector4 spot, Vector4 up)
+{
+    Matrix4 temp;
+    Vector4 look = spot - eye;
+    look.normalize();
+    Vector4 right = look.cross(up);
+    right.normalize();
+    up = right.cross(look);
+    up.normalize();
+
+    temp.ix = right.x;
+    temp.jx = right.y;
+    temp.kx = right.z;
+    temp.iy = up.x;
+    temp.jy = up.y;
+    temp.ky = up.z;
+    temp.iz = 0 - look.x;
+    temp.jz = 0 - look.y;
+    temp.kz = 0 - look.z;
+    Matrix4 viewMatrix = temp * Translate3D(0-eye.x, 0-eye.y,0-eye.z);
+    return viewMatrix;
+}
+
+Matrix4 Orthographic(float minX, float maxX, float minY, float maxY,float minZ, float maxZ)
+{
+    float tx = 0 - ((minX + maxX)/2);
+    float ty = 0 - ((minY + maxY)/2);
+    float tz = 0 - ((minZ + maxZ)/2);
+
+    float sx = 2/(minX + maxX);
+    float sy = 2/(minY + maxY);
+    float sz = 2/(minZ + maxZ);
+
+    return Scale3D(sx,sy,sz) * Translate3D(tx,ty,tz);
+}
+
+Matrix4 Perspective(float fovY, float aspect, float nearZ, float farZ)
+{
+    Matrix4 p;
+    float ymaxPZ = tanf(fovY/2);
+    
+    return p;
+}
+
+Matrix4 Viewport(float x, float y, float width, float height)
+{
+    return Translate3D(x,y,0) * Scale3D(width, height, 1) * Scale3D(0.5,0.5,0.5) * Translate3D(1,1,-1);
+}
+

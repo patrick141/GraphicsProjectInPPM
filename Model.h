@@ -19,6 +19,8 @@ class Model {
         void readfromObj(string file, Color fillColor);
         Triangle3D operator[](int i);
         void transform(Matrix4 matrix);
+        void homogenize();
+        void performBackfaceCulling(Vector4 eye, Vector4 spot);
 };
 
 #endif

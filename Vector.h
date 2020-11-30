@@ -41,6 +41,7 @@ struct Vector4 {
     void rotate(float angle);
     void scale(float a, float b);
     void print();
+    Vector4 cross(Vector4 temp);
 };
 
 float determinant(Vector2 a, Vector2 b);

@@ -181,3 +181,12 @@ void Vector4::print()
 {
     std::cout << x << ", " << y << ", " <<  z << ", " <<  w << std::endl;
 }
+
+Vector4 Vector4::cross(Vector4 temp)
+{
+    Vector4 myVec;
+    myVec.x = y * temp.z - z * temp.y;
+    myVec.y = z * temp.x - x * temp.z;
+    myVec.z = x * temp.y - y * temp.x;
+    return myVec;
+}

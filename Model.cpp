@@ -27,35 +27,92 @@ void Model::transform(Matrix4 matrix)
 void Model::readfromObj(string file, Color fillColor)
 {
     vector<Vector4> vectors;
-    vector<Triangle3D> faces;
-
     ifstream myFile(file);
-    if(myFile.is_open()){
+    if (myFile.is_open()) 
+    {
         string line;
-        while(getline(myFile, line)){
+        while (getline(myFile, line)) 
+        {
             istringstream s(line);
             string myWord;
-            vector<string> words;
-            while(getline(s, myWord, ' ')){
-                words.push_back(myWord);
+            float x, y, z;
+            bool isVertex;
+            bool isFace;
+            Vector4 v1, v2, v3;
+            int index = 0;
+            int v1_i, v2_i, v3_i;
+
+            while (getline(s, myWord, ' ')) 
+            {
+                if (myWord == "v") {
+                    isVertex = true;
+                    isFace = false;
+                } else if (myWord == "f") {
+                    isVertex = false;
+                    isFace = true;
+                } else if (isVertex) {
+                    if (index == 1) {
+                        x = atof(myWord.c_str());
+                    } else if (index == 2) {
+                        y = atof(myWord.c_str());
+                    } else if (index == 3) {
+                        z = atof(myWord.c_str());
+                    }
+                } else if (isFace) {
+                    if (index == 1) {
+                        int v1_index = atoi(myWord.c_str()) - 1;
+                        v1_i = v1_index + 1;
+                        v1 = vectors[v1_index];
+                    } else if (index == 2) {
+                        int v2_index = atoi(myWord.c_str()) - 1;
+                        v2 = vectors[v2_index];
+                        v2_i = v2_index + 1;
+                    } else if (index == 3) {
+                        int v3_index = atoi(myWord.c_str()) - 1;
+                        v3 = vectors[v3_index];
+                        v3_i = v3_index + 1;
+                    }
+                }
+                index++;
             }
 
-            if(words[0] == "v"){
-                float f1 = atof(words[1].c_str());
-                float f2 = atof(words[2].c_str());
-                float f3 = atof(words[3].c_str());
-                Vector4 v(f1, f2, f3, 1.0);
+            if (isVertex) {
+                Vector4 v = Vector4(x, y, z, 1.0);
                 vectors.push_back(v);
-            } else if(words[0] == "f"){
-                float f1 = atof(words[1].c_str());
-                float f2 = atof(words[2].c_str());
-                float f3 = atof(words[3].c_str());
-                Vector4 v(f1, f2, f3, 1.0);
-                Triangle3D t(v1,v2,v3,fillColor, fillColor, fillColor);
-                triangles.push_back(t);
+            } else if (isFace) {
+                triangles.push_back(Triangle3D(v1, v2, v3, fillColor, fillColor, fillColor));
             }
-
         }
+        myFile.close();
+    }
+}
+
+void Model::homogenize()
+{
+    for(int i = 0; i < numTriangles();i++){
+        Vector4 myV1 = triangles[i].v1;
+        float co1 = myV1.w;
+        myV1.x /= co1;
+        myV1.y /= co1;
+        myV1.z /= co1;
+        triangles[i].v1 = myV1;
+        Vector4 myV2 = triangles[i].v2;
+        float co2 = myV1.w;
+        myV2.x /= co1;
+        myV2.y /= co1;
+        myV2.z /= co1;
+        triangles[i].v2 = myV2;
+        Vector4 myV3 = triangles[i].v3;
+        float co3 = myV1.w;
+        myV3.x /= co1;
+        myV3.y /= co1;
+        myV3.z /= co1;
+        triangles[i].v3 = myV3;
     }
     return;
+}
+
+void Model::performBackfaceCulling(Vector4 eye, Vector4 spot)
+{
+    
 }

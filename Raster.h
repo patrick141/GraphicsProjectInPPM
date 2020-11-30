@@ -12,6 +12,7 @@ class Raster
         int width;
         int height;
         Color* pixels;
+        float* depthPixels;
         
     public:
         Raster();
@@ -37,6 +38,10 @@ class Raster
         void drawCirclePoints(Circle2D c);
         void drawCircle(Circle2D circle);
         void drawModel(Model model);
+
+        float getDepthPixel(int x, int y);
+        void setDepthPixel(int x, int y, float depth);
+        void clear(float depth);
 };
 
 #endif

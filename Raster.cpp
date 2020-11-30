@@ -3,12 +3,14 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
+#include <limits>
 
 Raster::Raster()
 {
     width = 0;
     height = 0;
     pixels = NULL;
+	depthPixels = NULL;
 }
 
 Raster::Raster(int pWidth, int pHeight, Color pFillColor)
@@ -20,11 +22,13 @@ Raster::Raster(int pWidth, int pHeight, Color pFillColor)
     for(int i = 0; i < size; i ++){
         pixels[i] = pFillColor;
     }
+	depthPixels = new float[size];
 }
 
 Raster::~Raster()
 {
     delete[] pixels;
+	delete[] depthPixels;
 }
 
 int Raster::getWidth()
@@ -341,32 +345,66 @@ void Raster::drawTriangle_Barycentric(Triangle2D T)
 	}
 }
 
+//TODO: Fix this method so it draws better
 void Raster::drawTriangle3D_Barycentric(Triangle3D triangle)
 {
-	Triangle2D T(triangle);
-	Vector2 v1 = T.v1;
-	Vector2 v2 = T.v2;
-	Vector2 v3 = T.v3;
-	float f1;
-	float f2;
-	float f3;
+	Triangle2D t(triangle);
+	
+	Vector2 edge1 = t.v2 - t.v1 ;
+	Vector2 edgeP1 = edge1.perpendicular();
 
-	int xmin = fminf(v1.x, fminf(v2.x, v3.x));
-	int xmax = fmaxf(v1.x, fmaxf(v2.x, v3.x));
-	int ymin = fminf(v1.y, fminf(v2.y, v3.y));
-	int ymax = fmaxf(v1.y, fmaxf(v2.y, v3.y));
-	xmin = fmax(0, xmin);
-	xmax = fmin(width, xmax);
-	ymin = fmax(0,ymin);
-	ymax = fmin(height, ymax);
+	Vector2 edge2 = t.v3 -t.v2 ;
+	Vector2 edgeP2 = edge2.perpendicular();
 
-	for(int x = xmin; x <= xmax; x++){
-		for(int y = ymin; y <= ymax; y++){
-			T.calculateBarycentricCoordinates(Vector2(x,y), f1, f2, f3);
-			if(f1 >= 0 && f2 >= 0 && f3 >= 0){
-				Color fillColor = T.c1 * f1 + T.c2 * f2 + T.c3 * f3;
-				setColorPixel(x, y, fillColor);
-			}
+	Vector2 edge3 = t.v1 - t.v3 ;
+	Vector2 edgeP3 = edge3.perpendicular();
+
+
+	int rightMostX = fmax(fmax(triangle.v2.x, triangle.v3.x), triangle.v1.x);
+	int leftMostX = fmin(fmin(triangle.v2.x, triangle.v3.x), triangle.v1.x);
+	int topMostY = fmax(fmax(triangle.v2.y, triangle.v3.y), triangle.v1.y);
+	int bottomMostY = fmin(fmin(triangle.v2.y, triangle.v3.y), triangle.v1.y);
+
+	if(rightMostX >= width){
+		rightMostX = width -1;
+	}
+	if (leftMostX < 0) {
+		leftMostX= 0;
+	}
+	if(topMostY >= height){
+		topMostY = height -1;
+
+	}
+	if(bottomMostY <0){
+		bottomMostY = 0;
+	}
+
+	for (int row1 = topMostY; row1 >=bottomMostY; row1--){
+		for(int column1 = leftMostX; column1<rightMostX; column1++){
+			Vector2 P(column1,row1);
+			float lambda1 = 0.0;
+			float lambda2 = 0.0;
+			float lambda3 = 0.0;
+
+			t.calculateBarycentricCoordinates(P, lambda1, lambda2,lambda3);
+			Color new1 = triangle.c1*lambda1;
+			Color new2 = triangle.c2*lambda2;
+			Color new3 = triangle.c3*lambda3;
+			Color c = new1 + new2 +new3;
+
+			Vector2 i1 = P - t.v1;
+			Vector2 i2 = P - t.v2;
+			Vector2 i3 = P - t.v3;
+
+			float result1 = edgeP1.dot(i1);
+			float result2  = edgeP2.dot(i2);
+			float result3 = edgeP3.dot(i3);
+
+
+		if(result1 > 0 && result2 > 0 && result3 > 0)
+		{
+			setColorPixel(column1,row1,c);
+		}	
 		}
 	}
 }
@@ -378,6 +416,35 @@ void Raster::drawModel(Model model)
 		drawTriangle3D_Barycentric(t);
 	}
 }
+float Raster::getDepthPixel(int x, int y)
+{
+	if(x < 0 || x > width - 1|| y < 0 || y > height - 1){
+        return 0; 
+    }
+    int temp = height - y - 1;
+    int myPixel = temp * width + x;
+    return depthPixels[myPixel];
+}
+
+void Raster::setDepthPixel(int x, int y, float depth)
+{
+	if(x < 0 || x > width - 1|| y < 0 || y > height - 1){
+        return;
+    }
+    int temp = height - y - 1;
+    int myPixel = temp * width + x;
+    depthPixels[myPixel] = depth;
+}
+
+void Raster::clear(float depth)
+{
+	for(int i = 0;i < width * height; i ++)
+    {
+        depthPixels[i] = depth;
+    }
+}
+
+
 
 // Other functions for different shapes
 void Raster::drawRectangle(Rectangle2D R)
@@ -418,8 +485,6 @@ void Raster::drawCircle(Circle2D circle)
 	Vector2 center = circle.center;
 	float radius = circle.radius;
 	Color c1 = circle.c1;
-	//drawLine_DDA(v2.x,v2.y,v4.x,v4.y,c1);
-	//drawLine_DDA(v1.x,v1.y,v3.x,v3.y,c1);
 	drawCurve(v1,v4,center, radius, c1);
 	drawCurve(v4,v3,center, radius, c1);
 	drawCurve(v3,v2,center,radius,c1);
