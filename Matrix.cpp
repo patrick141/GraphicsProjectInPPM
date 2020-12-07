@@ -146,7 +146,7 @@ Matrix4 Rotate3D(float degrees, Vector4 vec)
 Matrix4 LookAt(Vector4 eye, Vector4 spot, Vector4 up)
 {
     Matrix4 temp;
-    Vector4 look = spot - eye;
+    Vector4 look = (spot - eye);
     look.normalize();
     Vector4 right = look.cross(up);
     right.normalize();
@@ -159,22 +159,22 @@ Matrix4 LookAt(Vector4 eye, Vector4 spot, Vector4 up)
     temp.iy = up.x;
     temp.jy = up.y;
     temp.ky = up.z;
-    temp.iz = 0 - look.x;
-    temp.jz = 0 - look.y;
-    temp.kz = 0 - look.z;
-    Matrix4 viewMatrix = temp * Translate3D(0-eye.x, 0-eye.y,0-eye.z);
+    temp.iz = -look.x;
+    temp.jz = -look.y;
+    temp.kz = -look.z;
+    Matrix4 viewMatrix = temp * Translate3D(-eye.x,-eye.y,-eye.z);
     return viewMatrix;
 }
 
 Matrix4 Orthographic(float minX, float maxX, float minY, float maxY,float minZ, float maxZ)
 {
-    float tx = 0 - ((minX + maxX)/2);
-    float ty = 0 - ((minY + maxY)/2);
-    float tz = 0 - ((minZ + maxZ)/2);
+    float tx = -((minX + maxX)/2);
+    float ty = -((minY + maxY)/2);
+    float tz = -((minZ + maxZ)/2);
 
-    float sx = 2/(minX + maxX);
-    float sy = 2/(minY + maxY);
-    float sz = 2/(minZ + maxZ);
+    float sx = 2/(maxX - minX);
+    float sy = 2/(maxY - minY);
+    float sz = 2/(maxZ - minZ);
 
     return Scale3D(sx,sy,sz) * Translate3D(tx,ty,tz);
 }
@@ -183,7 +183,13 @@ Matrix4 Perspective(float fovY, float aspect, float nearZ, float farZ)
 {
     Matrix4 p;
     float ymaxPZ = tanf(fovY/2);
-    
+    float F = 1 / ymaxPZ;
+    p.ix = F / aspect;
+    p.jy = F;
+    p.kz = (farZ + nearZ) / (nearZ - farZ);
+    p.kw = -1;
+    p.oz = (2 * nearZ * farZ) / (nearZ - farZ);
+    p.ow = 0;
     return p;
 }
 

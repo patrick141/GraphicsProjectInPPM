@@ -20,7 +20,9 @@ Triangle3D Model::operator[](int i)
 void Model::transform(Matrix4 matrix)
 {
     for(int i = 0; i < numTriangles();i++){
-        triangles[i].transform(matrix);
+        if(triangles[i].shouldDraw == true){
+            triangles[i].transform(matrix);
+        }
     }
 }
 
@@ -90,29 +92,31 @@ void Model::readfromObj(string file, Color fillColor)
 void Model::homogenize()
 {
     for(int i = 0; i < numTriangles();i++){
-        Vector4 myV1 = triangles[i].v1;
-        float co1 = myV1.w;
-        myV1.x /= co1;
-        myV1.y /= co1;
-        myV1.z /= co1;
-        triangles[i].v1 = myV1;
-        Vector4 myV2 = triangles[i].v2;
-        float co2 = myV1.w;
-        myV2.x /= co1;
-        myV2.y /= co1;
-        myV2.z /= co1;
-        triangles[i].v2 = myV2;
-        Vector4 myV3 = triangles[i].v3;
-        float co3 = myV1.w;
-        myV3.x /= co1;
-        myV3.y /= co1;
-        myV3.z /= co1;
-        triangles[i].v3 = myV3;
+        float w1 = triangles[i].v1.w;
+        triangles[i].v1.x /= w1;
+        triangles[i].v1.y /= w1;
+        triangles[i].v1.z /= w1;
+        triangles[i].v1.w /= w1;
+        
+        float w2 = triangles[i].v2.w;
+        triangles[i].v2.x /= w2;
+        triangles[i].v2.y /= w2;
+        triangles[i].v2.z /= w2;
+        triangles[i].v2.w /= w2;
+
+        float w3 = triangles[i].v3.w;
+        triangles[i].v3.x /= w3;
+        triangles[i].v3.y /= w3;
+        triangles[i].v3.z /= w3;
+        triangles[i].v3.w /= w3;
     }
     return;
 }
 
 void Model::performBackfaceCulling(Vector4 eye, Vector4 spot)
 {
-    
+    for(int i = 0; i < numTriangles();i++){
+        Vector4 temp =  spot - eye;
+        temp.normalize();
+    }
 }

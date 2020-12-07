@@ -35,6 +35,7 @@ struct Triangle3D{
     Color c2;
     Color c3;
 
+    bool shouldDraw;
     Triangle3D();
     Triangle3D(Vector4 pV1, Vector4 pV2,Vector4 pV3,Color pC1, Color pC2, Color pC3);
     void transform(Matrix4 matrix);
